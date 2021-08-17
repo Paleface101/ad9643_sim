@@ -18,7 +18,7 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-
+`include "config_dsp_tb.vh"
 
 module ad9643_sim (
 // SPI interface
@@ -40,6 +40,9 @@ module ad9643_sim (
     ,output wire        dco_n
     
 );
+
+
+
 assign sdio = 1'bz;
 localparam   tclk = 1;
 logic [13:0] data_count1 ;
@@ -64,10 +67,10 @@ end
  always begin
  fork
  begin
- #(2*tclk) data_count1 <= data_count1 +1;
+ #(PERIOD_250) data_count1 <= data_count1 +1;
  end
  begin
- #(2*tclk) data_count2 <= data_count2 - 1;
+ #(PERIOD_250) data_count2 <= data_count2 - 1;
  end
  join
 end
