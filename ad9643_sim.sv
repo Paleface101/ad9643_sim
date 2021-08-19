@@ -27,7 +27,7 @@ parameter PERIOD_250 = 4
 // SPI interface
      input wire sclk
     ,input wire csb
-    ,input wire sdio //temporarily as an input
+    ,inout wire sdio //temporarily as an input
     ,input wire dir
     ,input wire pdwn
     ,input wire sync
@@ -44,7 +44,9 @@ parameter PERIOD_250 = 4
     
 );
 
-localparam   tclk = 1;
+logic data_spi_tx;
+logic data_spi_rx;
+
 logic [13:0] data_count1 ;
 //logic [13:0] data_count2 ;
 reg   [13:0] data_p_reg;
@@ -79,6 +81,10 @@ end
     data_p_reg <= data_count1;
     data_n_reg <= ~data_count1;
 end 
+
+
+ spi_if SPI_IF0 (.sdio(sdio),.ss_n(csb),.sclk(sclk));
+
 /*always @(posedge clk_n) begin 
     data_n_reg <= data_count;
     data_p_reg <= data_count;
