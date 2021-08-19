@@ -18,9 +18,12 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-`include "../config_dsp_tb.vh" 
+//`include "../config_dsp_tb.vh" 
 
-module ad9643_sim (
+module ad9643_sim #(
+parameter PERIOD_250 = 4
+ )
+(
 // SPI interface
      input wire sclk
     ,input wire csb
