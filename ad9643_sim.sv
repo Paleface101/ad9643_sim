@@ -18,7 +18,7 @@
 // Additional Comments:
 // 
 //////////////////////////////////////////////////////////////////////////////////
-
+`include "../config_dsp_tb.vh" 
 
 module ad9643_sim (
 // SPI interface
@@ -40,7 +40,7 @@ module ad9643_sim (
     ,output wire        dco_n
     
 );
-`include "config_dsp_tb.vh" 
+
 localparam   tclk = 1;
 logic [13:0] data_count1 ;
 //logic [13:0] data_count2 ;
