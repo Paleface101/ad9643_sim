@@ -77,7 +77,7 @@ end
  always begin
  fork
  begin
- #(PERIOD_250) data_count1 <= data_count1 +1;
+ #(PERIOD_250/2) data_count1 <= data_count1 +1;
  end
  /*begin
  #(PERIOD_250) data_count2 <= data_count2 - 1;
