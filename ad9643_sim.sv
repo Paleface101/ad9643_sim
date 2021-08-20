@@ -47,6 +47,9 @@ parameter PERIOD_250 = 4
 logic data_spi_tx;
 logic data_spi_rx;
 
+logic OR_P;
+
+
 logic [13:0] data_count1 ;
 //logic [13:0] data_count2 ;
 reg   [13:0] data_p_reg;
@@ -58,9 +61,14 @@ assign  dco_n = ~clk_n;
 assign data_p = data_p_reg  ;
 assign data_n = data_n_reg ;
 
+assign or_p =  OR_P;
+assign or_n = ~OR_P;
+
 initial begin 
 data_count1 = 0;
 //data_count2 = 0;
+OR_P = 0;
+
 data_p_reg  = 0;
 data_n_reg  = 0;
 end
@@ -85,21 +93,7 @@ end
 
  spi_if SPI_IF0 (.sdio(sdio),.ss_n(csb),.sclk(sclk));
 
-/*always @(posedge clk_n) begin 
-    data_n_reg <= data_count;
-    data_p_reg <= data_count;
-end */
 
-//spi_if SPI (.*,.ss_n(csb));
-
-// SM (.*, .rd_data_memory(rd_data), 
- //                       .wr_data_and_instruction(Demux2.IN_Demux));
-
-
-//Memory M (.*,.wr_data_memory(wr_DataAndInstruction));
- 
-//demux2 Demux2 (.write_inst(write_inst),
- //              .IN_Demux(wr_data_and_instruction) ) ;
 
 endmodule
 
