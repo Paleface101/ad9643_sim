@@ -27,8 +27,7 @@ parameter PERIOD_250 = 4
 // SPI interface
      input wire sclk
     ,input wire csb
-    ,inout wire sdio //temporarily as an input
-    ,input wire dir
+    ,inout wire sdio 
     ,input wire pdwn
     ,input wire sync
     
@@ -44,19 +43,19 @@ parameter PERIOD_250 = 4
     
 );
 
-logic data_spi_tx;
-logic data_spi_rx;
+//logic data_spi_tx;
+// data_spi_rx;
 
 logic OR_P;
 
-
 logic [13:0] data_count1 ;
-//logic [13:0] data_count2 ;
+logic        out_clk_n;
+logic        out_clk_p;
+
 reg   [13:0] data_p_reg;
 reg   [13:0] data_n_reg;
  
-assign  dco_p = ~clk_p;
-assign  dco_n = ~clk_n;
+
 
 assign data_p = data_p_reg  ;
 assign data_n = data_n_reg ;
@@ -66,34 +65,35 @@ assign or_n = ~OR_P;
 
 initial begin 
 data_count1 = 0;
-//data_count2 = 0;
 OR_P = 0;
-
 data_p_reg  = 0;
 data_n_reg  = 0;
 end
 
 
  always begin
- fork
- begin
+
  #(PERIOD_250/2) data_count1 <= data_count1 +1;
- end
- /*begin
- #(PERIOD_250) data_count2 <= data_count2 - 1;
- end*/
- join
+
 end
 
- always  @( posedge clk_p or posedge clk_n ) begin
+ always  @( posedge out_clk_p or posedge out_clk_n ) begin
     data_p_reg <= data_count1;
     data_n_reg <= ~data_count1;
 end 
 
 
- spi_if SPI_IF0 (.sdio(sdio),.ss_n(csb),.sclk(sclk));
+ spi_if SPI_IF0 (
+ .sdio(sdio),
+ .ss_n(csb),
+ .sclk(sclk),
+ .in_clk_n(clk_n),
+ .in_clk_p(clk_p),
+ .out_clk_n(out_clk_n),
+ .out_clk_p(out_clk_p));
 
-
+assign  dco_p = ~out_clk_p;
+assign  dco_n = ~out_clk_n;
 
 endmodule
 

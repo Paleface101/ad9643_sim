@@ -6,7 +6,13 @@ module spi_if
     input       sclk,   // SPI CLK
     input       ss_n,   // SPI CS_N
     inout       sdio,
-    output direct //----my changing
+    output      direct, //----my changing
+    
+    //for clock divider
+    input in_clk_p,
+    input in_clk_n,
+    output out_clk_n,
+    output out_clk_p
     );
 
    wire  [7:0] rdata;
@@ -23,10 +29,11 @@ module spi_if
    wire         dir;
    wire         mosi;
    wire         miso;
+   wire  [7:0]  wire_clock_divide;
   
-   reg sys_clk =1'b0;
+   reg sys_clk   = 1'b0;
    reg sys_reset = 1'b1;
-    assign direct = dir;//--------my 
+   assign direct = dir;//--------my 
 
    always begin
       sys_clk = 1'b0;
@@ -114,8 +121,17 @@ reg_file reg_file(
    .write (wr_en_cdc),
    .Addr (address_cdc [12:0]),
    .wrData (wdata_cdc),
-   .rdData (rdata)
+   .rdData (rdata),
+   .clock_divide(wire_clock_divide)
      );
+     
+  Clock_divide Clock_divide(
+    .in_clk_p(in_clk_p),
+    .in_clk_n(in_clk_n),
+    .out_clk_n(out_clk_n),
+    .out_clk_p(out_clk_p), 
+    .register_value( wire_clock_divide)
+                );   
 
 IOBUF #(
       .DRIVE(12), // Specify the output drive strength

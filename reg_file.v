@@ -22,18 +22,19 @@
 
 module reg_file(
   
-   input clk,
-   input reset,
-   input write,
-   input [12:0] Addr,
-   input [7:0] wrData,
-   output [7:0] rdData
+   input              clk,
+   input              reset,
+   input              write,
+   input       [12:0] Addr,
+   input       [7:0]  wrData,
+   output      [7:0]  rdData,
+   output wire [7:0]  clock_divide
      );
 
    reg [7:0]    regfile [0:8191];
 
-   assign rdData = regfile[Addr];
-  
+   assign rdData       = regfile [Addr];
+   assign clock_divide = regfile [13'h0B];
    integer   i;
 
    always @(posedge clk) begin
@@ -43,7 +44,7 @@ module reg_file(
             end
       end else begin
             if (write) regfile[Addr] <= wrData;
-           // else  regfile[Addr] <= regfile[Addr];
+            else  regfile[Addr] <= regfile[Addr];
       end 
    end
 endmodule
