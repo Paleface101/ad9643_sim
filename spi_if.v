@@ -32,7 +32,7 @@ module spi_if
    wire  [7:0]  wire_clock_divide;
   
    reg sys_clk   = 1'b0;
-   reg sys_reset = 1'b1;
+   reg sys_reset = 1'b1;///
    assign direct = dir;//--------my 
 
    always begin
@@ -44,8 +44,8 @@ module spi_if
    
    initial begin
 
-   #(3.0 * 20) @(posedge sys_clk) sys_reset =1'b0;
-      end
+   #1 @(posedge sys_clk) sys_reset =1'b0;
+     end
    
    assign reset_spi = sys_reset || ss_n; // clear the SPI when the chip_select is inactive
 
