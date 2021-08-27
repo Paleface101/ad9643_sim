@@ -44,7 +44,7 @@ module spi_if
    
    initial begin
 
-   #1 @(posedge sys_clk) sys_reset =1'b0;
+   #5 @(posedge sys_clk) sys_reset =1'b0;
      end
    
    assign reset_spi = sys_reset || ss_n; // clear the SPI when the chip_select is inactive
@@ -88,7 +88,7 @@ module spi_if
 ) sync_wdata(
   .in_bits (wdata),
   .out_resetn (1'b1),
-  .out_clk (sys_clk),
+  .out_clk (sys_clk),//// changing sys_clk on a sclk
   .out_bits (wdata_cdc)
 ); 
 
@@ -98,7 +98,7 @@ module spi_if
 ) sync_address(
   .in_bits (address),
   .out_resetn (1'b1),
-  .out_clk (sys_clk),
+  .out_clk (sys_clk),// changing sys_clk on a sclk
   .out_bits (address_cdc)
 ); 
 
@@ -107,7 +107,7 @@ sync_data #(
   .NUM_OF_BITS(8),
   .ASYNC_CLK (1)
 ) sync_rdata (
-  .in_clk (sys_clk),
+  .in_clk (sys_clk),// changing sys_clk on a sclk
   .in_data (rdata),
   .out_clk (sclk),
   .out_data (rdata_cdc)
@@ -116,7 +116,7 @@ sync_data #(
 
 reg_file reg_file(
   
-   .clk (sclk),/// changing sys_clk on a sclk
+   .clk (sys_clk),/// changing sys_clk on a sclk
    .reset (sys_reset),
    .write (wr_en_cdc),
    .Addr (address_cdc [12:0]),
