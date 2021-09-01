@@ -28,13 +28,23 @@ module reg_file(
    input       [12:0] Addr,
    input       [7:0]  wrData,
    output      [7:0]  rdData,
-   output wire [7:0]  clock_divide
+   output wire [7:0]  clock_divide,
+   output wire [15:0] UserTestPattern1,
+   output wire [15:0] UserTestPattern2,
+   output wire [15:0] UserTestPattern3,
+   output wire [15:0] UserTestPattern4,
+   output wire [7:0]  test_mode
      );
 
    reg [7:0]    regfile [0:8191];
 
-   assign rdData       = regfile [Addr];
-   assign clock_divide = regfile [13'h0B];
+   assign rdData           =  regfile [Addr];
+   assign clock_divide     =  regfile [13'h0B];
+   assign UserTestPattern1 = {regfile [13'h1A],regfile [13'h19]};
+   assign UserTestPattern2 = {regfile [13'h1C],regfile [13'h1B]};
+   assign UserTestPattern3 = {regfile [13'h1E],regfile [13'h1D]};
+   assign UserTestPattern4 = {regfile [13'h20],regfile [13'h1F]};
+   assign test_mode        =  regfile [13'h0D];
    integer   i;
 
    always @(posedge clk) begin

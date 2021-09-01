@@ -12,7 +12,16 @@ module spi_if
     input in_clk_p,
     input in_clk_n,
     output out_clk_n,
-    output out_clk_p
+    output out_clk_p,
+    
+    //for user_pattern
+    output [15:0] UserTestPattern1,
+    output [15:0] UserTestPattern2,
+    output [15:0] UserTestPattern3,
+    output [15:0] UserTestPattern4,
+    //for test mode
+    output [7:0] test_mode
+    
     );
 
    wire  [7:0] rdata;
@@ -122,7 +131,12 @@ reg_file reg_file(
    .Addr (address_cdc [12:0]),
    .wrData (wdata_cdc),
    .rdData (rdata),
-   .clock_divide(wire_clock_divide)
+   .clock_divide(wire_clock_divide),
+   .UserTestPattern1(UserTestPattern1),
+   .UserTestPattern2(UserTestPattern2),
+   .UserTestPattern3(UserTestPattern3),
+   .UserTestPattern4(UserTestPattern4),
+   .test_mode(test_mode)
      );
      
   Clock_divide Clock_divide(
