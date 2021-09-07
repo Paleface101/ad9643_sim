@@ -1,11 +1,11 @@
 `timescale 1ns / 1ps
 
 module Clock_divide_ratio(
-input in_clk_p,
-input in_clk_n,
+input       in_clk_p,
+input       in_clk_n,
 input [2:0] clock_ratio,
 input       reset,
-output out_clk_p
+output      out_clk_p
 //output out_clk_n
     );
     
@@ -42,7 +42,7 @@ always_ff @( posedge in_clk_p ) begin
      end else begin
        counter_p <= counter_p + 1'b1;
     end  
- end
+  end
 end 
  
 always_ff @( negedge in_clk_p or posedge in_clk_p) begin
