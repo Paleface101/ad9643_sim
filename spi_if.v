@@ -123,7 +123,7 @@ sync_data #(
 ); 
 
 
-reg_file reg_file(
+Transfer Transfer(
   
    .clk (sys_clk),/// changing sys_clk on a sclk
    .reset (sys_reset),
